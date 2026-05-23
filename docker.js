@@ -4,7 +4,7 @@ function logError(request, message) {
       "cf-connecting-ip"
     )}, user-agent: ${request.headers.get("user-agent")}, url: ${request.url}`
   );
-}
+} 
 
 function createNewRequest(request, url, proxyHostname, originHostname) {
   const newRequestHeaders = new Headers(request.headers);
