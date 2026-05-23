@@ -23,7 +23,7 @@ function createNewRequest(request, url, proxyHostname, originHostname) {
     method: request.method,
     headers: newRequestHeaders,
     body: request.body,
-    redirect: 'follow'
+    redirect: "follow",
   });
 }
 
@@ -51,33 +51,24 @@ function setResponseHeaders(
   return newResponseHeaders;
 }
 
-/**
- * 替换内容
- * @param originalResponse 响应
- * @param proxyHostname 代理地址 hostname
- * @param pathnameRegex 代理地址路径匹配的正则表达式
- * @param originHostname 替换的字符串
- * @returns {Promise<*>}
- */
 async function replaceResponseText(
   originalResponse,
   proxyHostname,
   pathnameRegex,
   originHostname
 ) {
-  let text = await originalResponse.text();
+  const text = await originalResponse.text();
   if (pathnameRegex) {
     pathnameRegex = pathnameRegex.replace(/^\^/, "");
     return text.replace(
       new RegExp(`((?<!\\.)\\b${proxyHostname}\\b)(${pathnameRegex})`, "g"),
       `${originHostname}$2`
     );
-  } else {
-    return text.replace(
-      new RegExp(`(?<!\\.)\\b${proxyHostname}\\b`, "g"),
-      originHostname
-    );
   }
+  return text.replace(
+    new RegExp(`(?<!\\.)\\b${proxyHostname}\\b`, "g"),
+    originHostname
+  );
 }
 
 async function nginx() {
@@ -155,10 +146,11 @@ export default {
       ) {
         logError(request, "Invalid");
         return URL302
-          ? Response.redirect(KEEP_PATH
-            ? (URL302 + "/" + url.pathname).replace(/\/+/g, '/')
-            : URL302,
-             302
+          ? Response.redirect(
+              KEEP_PATH
+                ? (URL302 + "/" + url.pathname).replace(/\/+/g, "/")
+                : URL302,
+              302
             )
           : new Response(await nginx(), {
               headers: {
@@ -182,17 +174,14 @@ export default {
         DEBUG
       );
       const contentType = newResponseHeaders.get("content-type") || "";
-      let body;
-      if (contentType.includes("text/")) {
-        body = await replaceResponseText(
-          originalResponse,
-          PROXY_HOSTNAME,
-          PATHNAME_REGEX,
-          originHostname
-        );
-      } else {
-        body = originalResponse.body;
-      }
+      const body = contentType.includes("text/")
+        ? await replaceResponseText(
+            originalResponse,
+            PROXY_HOSTNAME,
+            PATHNAME_REGEX,
+            originHostname
+          )
+        : originalResponse.body;
       return new Response(body, {
         status: originalResponse.status,
         headers: newResponseHeaders,

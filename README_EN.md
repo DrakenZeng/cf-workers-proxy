@@ -25,11 +25,11 @@ PROXY_HOSTNAME to the blocked domain name, and then access it through your worke
 ## Deploy
 
 - Workers: Copy [_worker.js](_worker.js), save and deploy on [Cloudflare](https://www.cloudflare.com)
-- Pages: [Fork](https://github.com/jonssonyan/cf-workers-proxy/fork) the repository and connect GitHub
-  on [Cloudflare](https://www.cloudflare.com) for quick deployment
+- Pages: Use Git integration with build command `npm run build:pages` and output directory `dist`
+- To deploy the Docker version, change the build command to `npm run build:pages -- docker`
 
 Note: In most cases, you can use [_worker.js](_worker.js) to deploy, but some proxy addresses require special
-processing. Please use the specified file when deploying.
+processing. Please use the specified file when deploying. Pages deploys the generated `dist/_worker.js`.
 
 | Name    | File                     |
 |---------|--------------------------|

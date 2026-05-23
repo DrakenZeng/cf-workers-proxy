@@ -3,8 +3,11 @@
   "version": "0.0.1",
   "description": "Cloudflare Workers Proxy",
   "author": "jonssonyan <https://jonssonyan.com>",
+  "type": "module",
   "scripts": {
-    "lint:prettier": "prettier --write \"**/*.{js,cjs,ts,json,tsx,css,less,scss,vue,html,md}\""
+    "build:pages": "node build-pages.mjs",
+    "build:pages:docker": "node build-pages.mjs docker",
+    "lint:prettier": "prettier --write \"**/*.{js,cjs,mjs,ts,json,tsx,css,less,scss,vue,html,md}\""
   },
   "devDependencies": {
     "prettier": "^2.8.7"

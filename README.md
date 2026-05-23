@@ -23,10 +23,10 @@ Cloudflare Workers HTTP 反向代理
 ## 部署
 
 - Workers 方式: 复制 [_worker.js](_worker.js) ，在 [Cloudflare](https://www.cloudflare.com) 保存并部署
-- Pages 方式: [Fork](https://github.com/jonssonyan/cf-workers-proxy/fork)
-  仓库，在 [Cloudflare](https://www.cloudflare.com) 连接 GitHub 一键部署
+- Pages 方式: 使用 Git 集成部署，构建命令 `npm run build:pages`，输出目录 `dist`
+- 如果要部署 Docker 版，构建命令改为 `npm run build:pages -- docker`
 
-注意：大部分情况使用 [_worker.js](_worker.js) 部署即可，但是部分代理地址要特殊处理，部署时请使用指定的文件
+注意：大部分情况使用 [_worker.js](_worker.js) 部署即可，但是部分代理地址要特殊处理，部署时请使用指定的文件。Pages 会部署构建生成的 `dist/_worker.js`。
 
 | 名称     | 文件                       |
 |--------|--------------------------|
